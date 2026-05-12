@@ -1,0 +1,19 @@
+1auth:
+  postgresPassword: "password" # 팀 공통 비밀번호
+  username: "user"
+  password: "password"
+  database: "market"
+
+primary:
+  persistence:
+    enabled: true
+    # 👇 AWS 전용 스토리지 클래스 적용
+    storageClass: "gp2" 
+    size: 10Gi
+
+readReplicas:
+  replicaCount: 1
+  persistence:
+    enabled: true
+    storageClass: "gp2"
+    size: 10Gi

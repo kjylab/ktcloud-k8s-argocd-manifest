@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: msa-market-applications
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - service: inventory-service
+        path: inventory-service
+      - service: order-service
+        path: order-service
+      - service: product-service
+        path: product-service
+      - service: user-api-gateway
+        path: user-api-gateway
+  template:
+    metadata:
+      name: '{{service}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/kjylab/my-msa-manifest-values'
+        targetRevision: HEAD
+        path: '{{path}}'
+        helm:
+          valueFiles:
+          - values-release.yaml
+          parameters:
+            - name: "appName"
+              value: "{{service}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

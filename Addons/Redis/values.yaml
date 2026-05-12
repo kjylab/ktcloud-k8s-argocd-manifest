@@ -1,0 +1,17 @@
+architecture: replication # MSA 환경에 적합한 구조
+auth:
+  enabled: true
+  password: "password"
+
+master:
+  persistence:
+    enabled: true
+    storageClass: gp2
+    size: 5Gi
+
+replica:
+  replicaCount: 2
+  persistence:
+    enabled: true
+    storageClass: gp2
+    size: 5Gi

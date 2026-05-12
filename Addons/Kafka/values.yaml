@@ -1,0 +1,22 @@
+# KRaft 모드 (Zookeeper 없이 동작하는 최신 방식)
+kraft:
+  enabled: true
+
+controller:
+  replicaCount: 3
+  persistence:
+    enabled: true
+    storageClass: "gp2"
+    size: 10Gi
+
+logPersistence:
+  enabled: true
+  storageClass: "gp2"
+  size: 10Gi
+
+# 외부 접속이 필요 없다면 아래는 비활성화
+listeners:
+  client:
+    protocol: PLAINTEXT
+  controller:
+    protocol: PLAINTEXT
