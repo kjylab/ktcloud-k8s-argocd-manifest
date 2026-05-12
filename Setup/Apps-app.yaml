@@ -8,7 +8,7 @@ spec:
   - list:
       elements: 
       - path: Apps/msa-market
-        name: MSA-Market
+        name: msa-market
   template:
     metadata:
       name: '{{name}}'
