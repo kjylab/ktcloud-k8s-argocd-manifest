@@ -21,11 +21,17 @@ spec:
     spec:
       project: default
       source:
-        repoURL: 'https://github.com/kjylab/my-market-msa-manifest' 
+        - repoURL: 'https://github.com/kjylab/my-market-msa-manifest' 
         targetRevision: HEAD
         path: '.'
-        valueFiles: 
-          - 'https://raw.githubusercontent.com/kjylab/my-msa-manifest-values/main/{{service}}/values-release.yaml'
+        helm:
+          valueFiles:
+            - '$values/{{service}}/values-release.yaml'
+              
+        - repoURL: 'https://github.com/kjylab/my-msa-manifest-values.git'
+          targetRevision: main
+          ref: values 
+
       destination:
         server: https://kubernetes.default.svc
         namespace: default
