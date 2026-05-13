@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: charts-app
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - path: Charts/Traefik
+        name: traefik
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/kjylab/ktcloud-k8s-argocd-manifest.git' # 본인 레포 주소 확인!
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: traefik # traefik 전용 네임스페이스에 띄웁니다.
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
