@@ -1,6 +1,6 @@
 service:
   enabled: true
-  type: LoadBalancer  # ✅ AWS LoadBalancer를 생성하도록 설정
+  type: LoadBalancer 
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: external
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
