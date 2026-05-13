@@ -1,0 +1,11 @@
+apiVersion: v2
+name: kafka-addon
+description: Market Service용 Kafka KRaft 차트
+type: application
+version: 1.0.0
+appVersion: "3.7.0"
+
+dependencies:
+  - name: kafka
+    version: 29.x.x
+    repository: https://charts.bitnami.com/bitnami

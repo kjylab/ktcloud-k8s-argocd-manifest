@@ -1,0 +1,11 @@
+apiVersion: v2
+name: redis-addon
+description: Market Service용 Redis Cluster 차트
+type: application
+version: 1.0.0
+appVersion: "7.2.4"
+
+dependencies:
+  - name: redis
+    version: 19.x.x
+    repository: https://charts.bitnami.com/bitnami

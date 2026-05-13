@@ -1,0 +1,11 @@
+apiVersion: v2
+name: postgresql-addon
+description: Market Service용 PostgreSQL HA 차트
+type: application
+version: 1.0.0
+appVersion: "16.2.0"
+
+dependencies:
+  - name: postgresql
+    version: 15.5.x
+    repository: https://charts.bitnami.com/bitnami

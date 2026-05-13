@@ -1,6 +1,6 @@
 auth:
   postgresPassword: "password"
-  
+
 primary:
   persistence:
     enabled: true
@@ -25,6 +25,11 @@ primary:
         CREATE DATABASE inventory_db;
         CREATE USER "inventory-service" WITH ENCRYPTED PASSWORD 'inventory-service';
         GRANT ALL PRIVILEGES ON DATABASE inventory_db TO "inventory-service";
+
+        -- 4. Auth DB (Docker Compose 참고하여 추가)
+        CREATE DATABASE auth_db;
+        CREATE USER "auth-service" WITH ENCRYPTED PASSWORD 'auth-service';
+        GRANT ALL PRIVILEGES ON DATABASE auth_db TO "auth-service";
 
 readReplicas:
   replicaCount: 1
