@@ -25,7 +25,7 @@ spec:
         targetRevision: HEAD
         path: '.'
         valueFiles:
-            - https://raw.githubusercontent.com/kjylab/my-msa-manifest-values/main/{{service}}/values-release.yaml
+            - 'https://raw.githubusercontent.com/kjylab/my-msa-manifest-values/main/{{service}}/values-release.yaml'
       destination:
         server: https://kubernetes.default.svc
         namespace: default
