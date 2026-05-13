@@ -2,8 +2,9 @@ service:
   enabled: true
   type: LoadBalancer  # ✅ AWS LoadBalancer를 생성하도록 설정
   annotations:
-    # AWS NLB를 생성하고 싶다면 아래 주석을 켭니다 (권장)
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 
 ingressClass:
   enabled: true
