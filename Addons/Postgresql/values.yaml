@@ -1,15 +1,30 @@
-1auth:
-  postgresPassword: "password" # 팀 공통 비밀번호
-  username: "user"
-  password: "password"
-  database: "market"
-
+auth:
+  postgresPassword: "password"
+  
 primary:
   persistence:
     enabled: true
     # 👇 AWS 전용 스토리지 클래스 적용
     storageClass: "gp2" 
     size: 10Gi
+
+  initdb:
+    scripts:
+      init_multiple_dbs.sql: |
+        -- Product DB 및 계정 생성
+        CREATE DATABASE product_db;
+        CREATE USER "product-service" WITH ENCRYPTED PASSWORD 'product-service';
+        GRANT ALL PRIVILEGES ON DATABASE product_db TO "product-service";
+
+        -- Order DB 및 계정 생성
+        CREATE DATABASE order_db;
+        CREATE USER "order-service" WITH ENCRYPTED PASSWORD 'order-service';
+        GRANT ALL PRIVILEGES ON DATABASE order_db TO "order-service";
+
+        -- Inventory DB 및 계정 생성
+        CREATE DATABASE inventory_db;
+        CREATE USER "inventory-service" WITH ENCRYPTED PASSWORD 'inventory-service';
+        GRANT ALL PRIVILEGES ON DATABASE inventory_db TO "inventory-service";
 
 readReplicas:
   replicaCount: 1

@@ -9,24 +9,28 @@ spec:
       elements:
       - path: Addons/Postgresql
         name: postgresql
+        destNamespace: postgresql
       - path: Addons/Redis
         name: redis
+        destNamespace: redis
       - path: Addons/Kafka
         name: kafka
+        destNamespace: kafka
   template:
     metadata:
       name: '{{name}}'
     spec:
       project: default
       source:
-        # 👇 본인의 ArgoCD 매니페스트 레포 주소로 변경하세요!
         repoURL: 'https://github.com/kjylab/ktcloud-k8s-argocd-manifest.git'
         targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: default  # 앱들과 같은 네임스페이스에 띄웁니다.
+        namespace: '{{destNamespace}}'
       syncPolicy:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
