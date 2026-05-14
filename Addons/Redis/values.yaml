@@ -1,17 +1,19 @@
-architecture: replication # MSA 환경에 적합한 구조
-auth:
-  enabled: true
-  password: "password"
+global:
+  storageClass: "ebs-sc"
+  imagePullSecrets: []
 
-master:
-  persistence:
-    enabled: true
-    storageClass: gp2
-    size: 5Gi
+redis:
+  image:
+    registry: registry-1.docker.io
+    repository: bitnami/redis
+    tag: latest
+    pullSecrets: []
 
-replica:
-  replicaCount: 2
-  persistence:
+  auth:
     enabled: true
-    storageClass: gp2
-    size: 5Gi
+    password: "password"
+
+  sentinel:
+    enabled: false
+  metrics:
+    enabled: false

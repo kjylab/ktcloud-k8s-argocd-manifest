@@ -1,22 +1,36 @@
-# KRaft 모드 (Zookeeper 없이 동작하는 최신 방식)
-kraft:
-  enabled: true
+global:
+  defaultStorageClass: "ebs-sc"
+  security:
+    allowInsecureImages: true
 
-controller:
-  replicaCount: 3
+kafka:
+  image:
+    registry: public.ecr.aws
+    repository: bitnami/kafka
+    tag: 3.9.0-debian-12-r3
+    pullPolicy: Always
+
+  defaultInitContainers:
+    volumePermissions:
+      enabled: true
+      image:
+        registry: public.ecr.aws
+        repository: bitnami/os-shell
+        tag: 12-debian-12-r51
+      containerSecurityContext:
+        runAsUser: 0
+
   persistence:
     enabled: true
-    storageClass: "gp2"
-    size: 10Gi
+    storageClass: "ebs-sc"
+    size: 2Gi
 
-logPersistence:
-  enabled: true
-  storageClass: "gp2"
-  size: 10Gi
-
-# 외부 접속이 필요 없다면 아래는 비활성화
 listeners:
   client:
     protocol: PLAINTEXT
   controller:
+    protocol: PLAINTEXT
+  interbroker:
+    protocol: PLAINTEXT
+  external:
     protocol: PLAINTEXT

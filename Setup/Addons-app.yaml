@@ -11,10 +11,7 @@ spec:
         name: postgresql
         destNamespace: postgresql
       - path: Addons/Redis
-        name: inventory-redis
-        destNamespace: redis
-      - path: Addons/Redis
-        name: auth-redis
+        name: redis
         destNamespace: redis
       - path: Addons/Kafka
         name: kafka

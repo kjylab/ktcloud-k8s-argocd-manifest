@@ -1,39 +1,46 @@
 auth:
   postgresPassword: "password"
 
-primary:
-  persistence:
-    enabled: true
-    # 👇 AWS 전용 스토리지 클래스 적용
-    storageClass: "gp2" 
-    size: 10Gi
+global:
+  storageClass: "ebs-sc"
 
-  initdb:
-    scripts:
-      init_multiple_dbs.sql: |
-        -- Product DB 및 계정 생성
-        CREATE DATABASE product_db;
-        CREATE USER "product-service" WITH ENCRYPTED PASSWORD 'product-service';
-        GRANT ALL PRIVILEGES ON DATABASE product_db TO "product-service";
 
-        -- Order DB 및 계정 생성
-        CREATE DATABASE order_db;
-        CREATE USER "order-service" WITH ENCRYPTED PASSWORD 'order-service';
-        GRANT ALL PRIVILEGES ON DATABASE order_db TO "order-service";
+postgresql:
+  image: 
+    registry: registry-1.docker.io
+    repository: bitnami/postgresql
+    tag: latest
+    pullPolicy: IfNotPresent
 
-        -- Inventory DB 및 계정 생성
-        CREATE DATABASE inventory_db;
-        CREATE USER "inventory-service" WITH ENCRYPTED PASSWORD 'inventory-service';
-        GRANT ALL PRIVILEGES ON DATABASE inventory_db TO "inventory-service";
+  primary:
 
-        -- 4. Auth DB (Docker Compose 참고하여 추가)
-        CREATE DATABASE auth_db;
-        CREATE USER "auth-service" WITH ENCRYPTED PASSWORD 'auth-service';
-        GRANT ALL PRIVILEGES ON DATABASE auth_db TO "auth-service";
+    initdb:
+      scripts:
+        init_multiple_dbs.sql: |
+          -- Product DB 및 계정 생성
+          CREATE DATABASE product_db;
+          CREATE USER "product-service" WITH ENCRYPTED PASSWORD 'product-service';
+          ALTER DATABASE product_db OWNER TO "product-service";
+          \c product_db
+          GRANT ALL ON SCHEMA public TO "product-service";
 
-readReplicas:
-  replicaCount: 1
-  persistence:
-    enabled: true
-    storageClass: "gp2"
-    size: 10Gi
+          -- Order DB 및 계정 생성
+          CREATE DATABASE order_db;
+          CREATE USER "order-service" WITH ENCRYPTED PASSWORD 'order-service';
+          ALTER DATABASE order_db OWNER TO "order-service";
+          \c order_db
+          GRANT ALL ON SCHEMA public TO "order-service";
+
+          -- Inventory DB 및 계정 생성
+          CREATE DATABASE inventory_db;
+          CREATE USER "inventory-service" WITH ENCRYPTED PASSWORD 'inventory-service';
+          ALTER DATABASE inventory_db OWNER TO "inventory-service";
+          \c inventory_db
+          GRANT ALL ON SCHEMA public TO "inventory-service";
+
+          -- 4. Auth DB (Docker Compose 참고하여 추가)
+          CREATE DATABASE auth_db;
+          CREATE USER "auth-service" WITH ENCRYPTED PASSWORD 'auth-service';
+          ALTER DATABASE order_db OWNER TO "auth-service";
+          \c auth_db
+          GRANT ALL ON SCHEMA public TO "auth-service";
