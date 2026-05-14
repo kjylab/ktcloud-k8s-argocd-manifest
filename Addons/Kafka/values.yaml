@@ -28,6 +28,7 @@ kafka:
 listeners:
   client:
     protocol: PLAINTEXT
+    advertisedListeners: 'PLAINTEXT://$(KAFKA_POD_NAME).kafka-controller-headless.kafka.svc.cluster.local:9092'
   controller:
     protocol: PLAINTEXT
   interbroker:
