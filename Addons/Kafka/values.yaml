@@ -25,13 +25,19 @@ kafka:
     storageClass: "ebs-sc"
     size: 2Gi
 
-listeners:
-  client:
-    protocol: PLAINTEXT
+  listeners:
+    client:
+      containerPort: 9092
+      protocol: PLAINTEXT
+    controller:
+      containerPort: 9093
+      protocol: PLAINTEXT
+    interbroker:
+      containerPort: 9094
+      protocol: PLAINTEXT
+    # 다른 네임스페이스(default)의 서비스가 찾아올 수 있도록 전체 DNS 주소 광고
     advertisedListeners: 'PLAINTEXT://$(KAFKA_POD_NAME).kafka-controller-headless.kafka.svc.cluster.local:9092'
-  controller:
-    protocol: PLAINTEXT
-  interbroker:
-    protocol: PLAINTEXT
-  external:
-    protocol: PLAINTEXT
+
+  extraConfig: |
+    listener.security.protocol.map=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT
+    inter.broker.listener.name=INTERNAL
