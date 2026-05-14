@@ -11,7 +11,7 @@ redis:
 
   auth:
     enabled: true
-    password: "password"
+    password: "admin1234"
 
   sentinel:
     enabled: false
