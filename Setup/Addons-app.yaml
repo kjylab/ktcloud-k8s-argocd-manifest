@@ -19,9 +19,6 @@ spec:
       - path: Addons/EbsCsi
         name: ebs-csi
         destNamespace: kube-system
-      - path: Addons/Prometheus
-        name: prometheus
-        destNamespace: monitoring
       - path: Addons/Loki
         name: loki
         destNamespace: monitoring
