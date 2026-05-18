@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ebs-csi-addon
+description: AWS EBS CSI Driver for self-managed K8s on EC2
+type: application
+version: 1.0.0
+dependencies:
+  - name: aws-ebs-csi-driver
+    version: "2.32.0"
+    repository: https://kubernetes-sigs.github.io/aws-ebs-csi-driver

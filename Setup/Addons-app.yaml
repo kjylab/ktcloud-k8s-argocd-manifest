@@ -16,6 +16,9 @@ spec:
       - path: Addons/Kafka
         name: kafka
         destNamespace: kafka
+      - path: Addons/EbsCsi
+        name: ebs-csi
+        destNamespace: kube-system
   template:
     metadata:
       name: '{{name}}'
