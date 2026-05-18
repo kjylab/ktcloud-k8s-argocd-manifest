@@ -1,0 +1,62 @@
+kube-prometheus-stack:
+  grafana:
+    adminPassword: admin1234
+
+    grafana.ini:
+      server:
+        root_url: "%(protocol)s://%(domain)s/grafana"
+        serve_from_sub_path: true
+
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      path: /grafana
+      pathType: Prefix
+      hosts:
+        - ""
+
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        url: http://loki.monitoring.svc.cluster.local:3100
+        access: proxy
+        isDefault: false
+      - name: Tempo
+        type: tempo
+        url: http://tempo.monitoring.svc.cluster.local:3100
+        access: proxy
+        isDefault: false
+        jsonData:
+          tracesToLogsV2:
+            datasourceUid: loki
+          serviceMap:
+            datasourceUid: prometheus
+
+    persistence:
+      enabled: true
+      storageClassName: ebs-sc
+      size: 5Gi
+
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorNamespaceSelector: {}
+      podMonitorNamespaceSelector: {}
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: ebs-sc
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 20Gi
+
+  alertmanager:
+    enabled: false
+
+  nodeExporter:
+    enabled: true
+
+  kubeStateMetrics:
+    enabled: true
