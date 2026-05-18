@@ -2,18 +2,9 @@ kube-prometheus-stack:
   grafana:
     adminPassword: admin1234
 
-    grafana.ini:
-      server:
-        root_url: "%(protocol)s://%(domain)s/grafana"
-        serve_from_sub_path: true
-
-    ingress:
-      enabled: true
-      ingressClassName: traefik
-      path: /grafana
-      pathType: Prefix
-      hosts:
-        - ""
+    service:
+      type: NodePort
+      nodePort: 30300
 
     additionalDataSources:
       - name: Loki
