@@ -24,7 +24,7 @@ kube-prometheus-stack:
         jsonData:
           derivedFields:
             - name: TraceID
-              matcherRegex: '\[[\w.-]+,([a-f0-9]{16,32}),'
+              matcherRegex: '\[([a-f0-9]{32})-[a-f0-9]{16}\]'
               url: '$${__value.raw}'
               datasourceUid: P214B5B846CF3925F
               urlDisplayLabel: View Trace in Tempo
