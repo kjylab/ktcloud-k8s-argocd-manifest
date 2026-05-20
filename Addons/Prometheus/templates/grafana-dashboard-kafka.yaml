@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-kafka-lag
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  kafka-lag.json: |
+{{ .Files.Get "kafka-lag.json" | indent 4 }}
