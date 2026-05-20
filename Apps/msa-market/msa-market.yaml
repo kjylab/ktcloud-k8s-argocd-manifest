@@ -17,6 +17,8 @@ spec:
         path: user-api-gateway
       - service: auth-service
         path: auth-service
+      - service: user-service
+        path: user-service
   template:
     metadata:
       name: '{{service}}'
