@@ -50,3 +50,11 @@ kafka:
   extraConfig: |
     listener.security.protocol.map=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT,CLIENT:PLAINTEXT
     inter.broker.listener.name=INTERNAL
+
+metrics:
+  kafka:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      interval: 30s
