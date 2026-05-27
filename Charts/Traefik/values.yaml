@@ -1,20 +1,21 @@
-service:
-  enabled: true
-  type: NodePort
+traefik:
+  service:
+    enabled: true
+    type: NodePort
 
-ingressClass:
-  enabled: true
-  isDefaultClass: true
+  ingressClass:
+    enabled: true
+    isDefaultClass: true
 
-providers:
-  kubernetesIngress:
-    publishedService:
-      enabled: true
+  providers:
+    kubernetesIngress:
+      publishedService:
+        enabled: true
 
-ports:
-  web:
-    exposedPort: 80
-    nodePort: 31896
-  websecure:
-    exposedPort: 443
-    nodePort: 31897
+  ports:
+    web:
+      exposedPort: 80
+      nodePort: 31896
+    websecure:
+      exposedPort: 443
+      nodePort: 31897
