@@ -1,0 +1,32 @@
+# platform 레이어 App-of-Apps.
+# platform/**/application.yaml 을 재귀 탐색하여 sync.
+# 각 application.yaml 의 sync-wave annotation 으로 배포 순서 강제:
+#   wave -5 : ebs-csi (스토리지 드라이버)
+#   wave  0 : postgresql, redis, kafka (데이터 계층)
+#   wave  1 : traefik (인그레스)
+#   wave  2 : prometheus, loki, tempo (관측 계층)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-root
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/kjylab/ktcloud-k8s-argocd-manifest.git'
+    targetRevision: HEAD
+    path: platform
+    directory:
+      recurse: true
+      include: '**/application.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

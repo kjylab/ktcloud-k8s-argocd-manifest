@@ -3,10 +3,12 @@ kind: ApplicationSet
 metadata:
   name: apps-app
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   generators:
   - list:
-      elements: 
+      elements:
       - path: Apps/msa-market
         name: msa-market
   template:
