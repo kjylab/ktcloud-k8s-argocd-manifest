@@ -8,6 +8,3 @@ spec:
     average: 100   # 초당 평균 허용 요청 수
     burst: 200     # 순간 최대 허용 요청 수
     period: 1s
-    sourceCriterion:
-      ipStrategy:
-        depth: 1   # NLB 뒤에 있으므로 X-Forwarded-For 첫 번째 IP = 실제 클라이언트
