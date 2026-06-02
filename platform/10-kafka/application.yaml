@@ -4,13 +4,13 @@ metadata:
   name: kafka
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   project: default
   source:
     repoURL: 'https://github.com/kjylab/ktcloud-k8s-argocd-manifest.git'
     targetRevision: HEAD
-    path: Addons/Kafka
+    path: Addons/StrimziKafka
   destination:
     server: https://kubernetes.default.svc
     namespace: kafka
