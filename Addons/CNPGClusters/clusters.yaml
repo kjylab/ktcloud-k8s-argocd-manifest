@@ -1,0 +1,91 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: auth-db
+  namespace: postgresql
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: auth_db
+      owner: auth-service
+      secret:
+        name: auth-db-credentials
+  storage:
+    storageClass: ebs-sc
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: order-db
+  namespace: postgresql
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: order_db
+      owner: order-service
+      secret:
+        name: order-db-credentials
+  storage:
+    storageClass: ebs-sc
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: inventory-db
+  namespace: postgresql
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: inventory_db
+      owner: inventory-service
+      secret:
+        name: inventory-db-credentials
+  storage:
+    storageClass: ebs-sc
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: product-db
+  namespace: postgresql
+spec:
+  instances: 1
+  bootstrap:
+    initdb:
+      database: product_db
+      owner: product-service
+      secret:
+        name: product-db-credentials
+  storage:
+    storageClass: ebs-sc
+    size: 5Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
