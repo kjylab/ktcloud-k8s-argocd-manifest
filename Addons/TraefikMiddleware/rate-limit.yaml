@@ -5,6 +5,6 @@ metadata:
   namespace: default
 spec:
   rateLimit:
-    average: 100   # 초당 평균 허용 요청 수
-    burst: 200     # 순간 최대 허용 요청 수
+    average: 5     # 테스트용 낮은 값
+    burst: 10
     period: 1s
