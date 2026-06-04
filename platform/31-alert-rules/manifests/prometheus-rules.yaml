@@ -1,0 +1,62 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: troica-domain-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: troica.kafka
+      interval: 30s
+      rules:
+        - alert: KafkaConsumerLagHigh
+          expr: kafka_consumergroup_lag > 100
+          for: 1m
+          labels:
+            severity: security
+          annotations:
+            summary: "Kafka consumer lag > 100 (group {{ $labels.consumergroup }}, topic {{ $labels.topic }})"
+            description: "Consumer group {{ $labels.consumergroup }} of topic {{ $labels.topic }} has lag {{ $value }}."
+
+    - name: troica.http
+      interval: 30s
+      rules:
+        - alert: HighHttpErrorRate
+          expr: |
+            sum by (service, namespace) (rate(http_server_requests_seconds_count{status=~"5..", namespace=~"market-.*"}[5m]))
+              / sum by (service, namespace) (rate(http_server_requests_seconds_count{namespace=~"market-.*"}[5m]))
+              > 0.05
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "{{ $labels.service }} ({{ $labels.namespace }}) 5xx > 5%"
+            description: "Service {{ $labels.service }} has 5xx error rate of {{ $value | humanizePercentage }} for last 5 minutes."
+
+    - name: troica.jvm
+      interval: 30s
+      rules:
+        - alert: JvmHeapPressure
+          expr: |
+            sum by (pod, namespace) (jvm_memory_used_bytes{area="heap", namespace=~"market-.*"})
+              / sum by (pod, namespace) (jvm_memory_max_bytes{area="heap", namespace=~"market-.*"})
+              > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "JVM heap > 80% on pod {{ $labels.pod }}"
+            description: "Pod {{ $labels.pod }} ({{ $labels.namespace }}) is using {{ $value | humanizePercentage }} of max heap."
+
+    - name: troica.resilience4j
+      interval: 30s
+      rules:
+        - alert: CircuitBreakerOpened
+          expr: resilience4j_circuitbreaker_state{state="open"} > 0
+          for: 30s
+          labels:
+            severity: security
+          annotations:
+            summary: "CircuitBreaker {{ $labels.name }} is OPEN"
+            description: "CircuitBreaker {{ $labels.name }} in pod {{ $labels.pod }} ({{ $labels.namespace }}) entered OPEN state."
