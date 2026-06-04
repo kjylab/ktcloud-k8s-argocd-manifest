@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-secrets-operator
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    chart: external-secrets
+    repoURL: https://charts.external-secrets.io
+    targetRevision: 0.10.5
+    helm:
+      releaseName: external-secrets
+      values: |
+        installCRDs: true
+        replicaCount: 1
+        webhook:
+          replicaCount: 1
+        certController:
+          replicaCount: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+          limits:
+            memory: 200Mi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-secrets
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
