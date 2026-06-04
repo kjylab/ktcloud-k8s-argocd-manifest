@@ -14,13 +14,6 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
-  # Secret data는 kubectl로 직접 관리 — ArgoCD diff/overwrite 방지
-  ignoreDifferences:
-    - group: ""
-      kind: Secret
-      name: alertmanager-slack-webhooks
-      jsonPointers:
-        - /data
   syncPolicy:
     automated:
       prune: true
