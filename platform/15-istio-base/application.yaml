@@ -8,9 +8,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/kjylab/ktcloud-k8s-argocd-manifest.git'
-    targetRevision: HEAD
-    path: Charts/IstioBase
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: base
+    targetRevision: 1.30.1
+    helm:
+      values: |
+        defaultRevision: default
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system

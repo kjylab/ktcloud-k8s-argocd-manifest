@@ -8,9 +8,28 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/kjylab/ktcloud-k8s-argocd-manifest.git'
-    targetRevision: HEAD
-    path: Charts/IstioIngressGateway
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    chart: gateway
+    targetRevision: 1.30.1
+    helm:
+      values: |
+        service:
+          type: NodePort
+          ports:
+            - name: status-port
+              port: 15021
+              protocol: TCP
+              targetPort: 15021
+            - name: http2
+              port: 80
+              protocol: TCP
+              targetPort: 8080
+              nodePort: 32080
+            - name: https
+              port: 443
+              protocol: TCP
+              targetPort: 8443
+              nodePort: 32443
   destination:
     server: https://kubernetes.default.svc
     namespace: istio-system
