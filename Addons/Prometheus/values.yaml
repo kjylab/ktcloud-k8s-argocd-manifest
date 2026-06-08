@@ -8,12 +8,7 @@ kube-prometheus-stack:
         serve_from_sub_path: true
 
     ingress:
-      enabled: true
-      ingressClassName: traefik
-      path: /grafana
-      pathType: Prefix
-      hosts:
-        - ""
+      enabled: false
 
     additionalDataSources:
       - name: Loki
