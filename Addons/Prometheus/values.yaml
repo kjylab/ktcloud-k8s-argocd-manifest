@@ -128,7 +128,7 @@ kube-prometheus-stack:
         repeat_interval: 4h
         routes:
           - matchers:
-              - alertname =~ "Watchdog|InfoInhibitor|KubeCPUOvercommit"
+              - alertname =~ "Watchdog|InfoInhibitor|KubeCPUOvercommit|KubeProxyInstanceUnreachable|KubeControllerManagerInstanceUnreachable|KubeSchedulerInstanceUnreachable"
             receiver: "null"
             continue: false
           - matchers:
@@ -151,6 +151,15 @@ kube-prometheus-stack:
               text: '{{ template "slack.korean.text" . }}'
 
   kubeEtcd:
+    enabled: false
+
+  kubeProxy:
+    enabled: false
+
+  kubeControllerManager:
+    enabled: false
+
+  kubeScheduler:
     enabled: false
 
   nodeExporter:
